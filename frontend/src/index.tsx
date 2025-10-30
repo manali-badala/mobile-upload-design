@@ -1,15 +1,14 @@
 import React from "react";
-import ReactDOM from "react-dom"; // Use 'react-dom' instead of 'react-dom/client'
+import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-// Use ReactDOM.render for React 17
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById("root") // Mount the app here
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

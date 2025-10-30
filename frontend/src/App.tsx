@@ -1,4 +1,3 @@
-// src/App.tsx
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import FileUpload from "./components/FileUpload";
@@ -10,15 +9,15 @@ const App: React.FC = () => {
   const [signedPdfUrl, setSignedPdfUrl] = useState<string | null>(null);
   const [isSigning, setIsSigning] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [downloadLabel, setDownloadLabel] = useState<string>("signed.pdf");
-  const [selectedFileName, setSelectedFileName] = useState<string>("");
-  const [uploadedAt, setUploadedAt] = useState<Date | null>(null);
+  const [fileMeta, setFileMeta] = useState<{
+    originalName: string;
+    displayName: string;
+    uploadedAt: Date;
+  } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
   const processFile = async (file: File) => {
     setError(null);
-    setSelectedFileName(file.name);
-    setUploadedAt(new Date());
 
     if (signedPdfUrl) {
       URL.revokeObjectURL(signedPdfUrl);
@@ -26,14 +25,17 @@ const App: React.FC = () => {
     }
 
     const baseName = file.name.replace(/\.pdf$/i, "") || "document";
-    const signedTitle = `${baseName}_initialed`;
-    const signedFileName = `${signedTitle}.pdf`;
-    setDownloadLabel(signedFileName);
+    const metadata = {
+      originalName: file.name,
+      displayName: `${baseName}_initialed` ,
+      uploadedAt: new Date(),
+    };
+    setFileMeta(metadata);
     setIsSigning(true);
 
     try {
-      const signedBlob = await signPdfOnServer(file, signedTitle);
-      const namedFile = new File([signedBlob], signedFileName, {
+      const signedBlob = await signPdfOnServer(file, metadata.displayName);
+      const namedFile = new File([signedBlob], metadata.originalName, {
         type: "application/pdf",
       });
       const objectUrl = URL.createObjectURL(namedFile);
@@ -44,6 +46,7 @@ const App: React.FC = () => {
           ? err.message
           : "We couldn't sign that PDF. Please try again.";
       setError(message);
+      setFileMeta(null);
     } finally {
       setIsSigning(false);
     }
@@ -58,7 +61,7 @@ const App: React.FC = () => {
     event.stopPropagation();
     setIsDragging(false);
 
-    const droppedFile = event.dataTransfer.files?.[0];
+    const droppedFile = event.dataTransfer.files?.item(0);
     if (!droppedFile) {
       return;
     }
@@ -110,7 +113,8 @@ const App: React.FC = () => {
       <div className="content">
         <h1>Upload & View Signed PDF</h1>
         <p className="subtitle">
-          Choose a PDF and our mock signer will return a copy stamped with your initials at the bottom.
+          Choose a PDF and our mock signer will return a copy stamped with your
+          initials at the bottom.
         </p>
         <div
           className={`dropzone ${isDragging ? "dropzone--active" : ""}`}
@@ -119,19 +123,31 @@ const App: React.FC = () => {
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
         >
-          <FileUpload
-            onFileSelect={handleFileSelect}
-            isUploading={isSigning}
-          />
-          <p className="dropzone__hint">
-            or drag and drop your PDF here
-          </p>
+          <FileUpload onFileSelect={handleFileSelect} isUploading={isSigning} />
+          <p className="dropzone__hint">or drag and drop your PDF here</p>
         </div>
-        {selectedFileName && (
-          <p className="selected-file">
-            <span className="selected-file__label">Selected file:</span>{" "}
-            <span className="selected-file__name">{selectedFileName}</span>
-          </p>
+        {fileMeta && (
+          <div className="selected-file">
+            <div className="selected-file__info">
+              <span className="selected-file__label">Selected file:</span>
+              <span className="selected-file__name">{fileMeta.originalName}</span>
+            </div>
+            <button
+              type="button"
+              className="selected-file__clear"
+              onClick={() => {
+                if (signedPdfUrl) {
+                  URL.revokeObjectURL(signedPdfUrl);
+                }
+                setSignedPdfUrl(null);
+                setFileMeta(null);
+                setError(null);
+              }}
+              aria-label="Remove selected file"
+            >
+              ×
+            </button>
+          </div>
         )}
         {isSigning && (
           <div className="status status--info" role="status" aria-live="polite">
@@ -140,7 +156,7 @@ const App: React.FC = () => {
           </div>
         )}
         {error && <p className="error">{error}</p>}
-        {signedPdfUrl && !isSigning && !error && (
+        {signedPdfUrl && fileMeta && !isSigning && !error && (
           <div className="signed-output">
             <div className="status status--success" role="status">
               <span aria-hidden="true">✅</span>
@@ -148,8 +164,8 @@ const App: React.FC = () => {
             </div>
             <PDFViewer
               pdfUrl={signedPdfUrl}
-              fileName={downloadLabel}
-              uploadedAt={uploadedAt ?? undefined}
+              fileName={fileMeta.originalName}
+              uploadedAt={fileMeta.uploadedAt}
               onLoadError={handleViewerError}
             />
           </div>

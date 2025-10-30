@@ -1,4 +1,3 @@
-// src/components/FileUpload.tsx
 import React, { useState } from "react";
 
 interface FileUploadProps {
@@ -21,7 +20,6 @@ const FileUpload: React.FC<FileUploadProps> = ({
       } else {
         setError("Please upload a valid PDF file.");
       }
-      // Allow choosing the same file again if needed
       e.target.value = "";
     }
   };

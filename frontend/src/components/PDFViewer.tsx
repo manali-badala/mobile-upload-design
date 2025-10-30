@@ -42,7 +42,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
   const initials = useMemo(() => {
     const safeName = fileName.trim();
     if (!safeName) return "PDF";
-    const parts = safeName.split(/[^\p{L}\p{N}]+/u).filter(Boolean);
+    const parts = safeName.split(/[^a-z0-9]+/i).filter(Boolean);
     if (parts.length === 0) {
       return safeName.slice(0, 2).toUpperCase();
     }

@@ -1,4 +1,3 @@
-// src/services/signService.ts
 import axios from "axios";
 
 export async function signPdfOnServer(
@@ -10,9 +9,9 @@ export async function signPdfOnServer(
   formData.append("displayName", displayName);
 
   const response = await axios.post("http://localhost:4000/sign", formData, {
-    responseType: "blob", // Expect PDF as Blob
+    responseType: "blob",
     headers: { "Content-Type": "multipart/form-data" },
   });
 
-  return response.data; // Return the signed PDF as a Blob
+  return response.data;
 }
