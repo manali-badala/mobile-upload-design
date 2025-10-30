@@ -67,5 +67,8 @@ def sign_pdf():
     else:
         return jsonify({"error": "Please upload a valid PDF file."}), 400
 
+
+app.add_url_rule('/api/sign', view_func=sign_pdf, methods=['POST'])
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=4000)
