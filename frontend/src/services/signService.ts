@@ -9,7 +9,7 @@ export async function signPdfOnServer(
   formData.append("displayName", displayName);
 
   const response = await axios.post(
-    "https://pdfsigner-3zxcz3emja-uc.a.run.app",
+    "https://pdfsigner-3zxcz3emja-uc.a.run.app/sign",
     formData,
     {
       responseType: "blob",
