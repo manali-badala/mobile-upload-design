@@ -8,10 +8,14 @@ export async function signPdfOnServer(
   formData.append("file", file);
   formData.append("displayName", displayName);
 
-  const response = await axios.post("http://localhost:4000/sign", formData, {
-    responseType: "blob",
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+  const response = await axios.post(
+    "https://pdfsigner-3zxcz3emja-uc.a.run.app",
+    formData,
+    {
+      responseType: "blob",
+      headers: { "Content-Type": "multipart/form-data" },
+    }
+  );
 
   return response.data;
 }

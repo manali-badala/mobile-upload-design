@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "proxy": "http://localhost:4000",
+  "proxy": "https://pdfsigner-3zxcz3emja-uc.a.run.app",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
