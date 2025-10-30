@@ -9,6 +9,18 @@ This project is a **Mobile PDF Signing Workflow** application consisting of a **
 
 ## Prerequisites
 
+- **Github**
+
+## Clone the Repository
+
+To get started with the project, clone the repository to your local machine:
+
+Run the following command in terminal to clone:
+
+```bash
+git clone {place the url here}
+```
+
 - **Frontend**:
   - Node.js **≥ 16**
   - npm **≥ 8**
