@@ -119,4 +119,4 @@ Here are some screenshots of the Mobile PDF Signing Workflow application:
 
 ![Upload PDF](images/upload_pdf.png)
 
-![Upload PDF](images/signed_pdf.png)
+![Signed PDF](images/signed_version_pdf.png)
