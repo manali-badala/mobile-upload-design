@@ -91,7 +91,20 @@ This project is a **Mobile PDF Signing Workflow** application consisting of a **
 
 To successfully upload a PDF, make sure both the frontend and backend servers are running.
 
+## Hosted URL for the application
+
+To directly access the app without installation or running it locally click on the below link.
+`https://pdf-signed-app.vercel.app/`
+
 ### Notes:
 
 - Ensure that the backend server is running before interacting with the web app, as it handles the PDF processing.
 - You can modify the port numbers if required in your server configurations.
+
+## UI Screens
+
+Here are some screenshots of the Mobile PDF Signing Workflow application:
+
+![Upload PDF](images/upload_pdf.png)
+
+![Upload PDF](images/signed_pdf.png)
