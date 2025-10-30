@@ -401,6 +401,7 @@ body,
   height: min(92vh, 960px);
   padding: clamp(12px, 2vw, 24px);
   display: flex;
+  margin-top: 60px;
 }
 
 .pdf-preview__modal-iframe {

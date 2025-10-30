@@ -32,7 +32,7 @@ def sign_pdf():
         if display_name:
             pdf_writer.add_metadata({"/Title": display_name})
 
-        signature_text = f"Initials: {initials}"
+        signature_text = f"Signed By: {initials}"
 
         # Overlay the signature onto each page
         for page_num in range(len(pdf_reader.pages)):
