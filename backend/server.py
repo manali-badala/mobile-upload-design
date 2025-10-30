@@ -1,4 +1,3 @@
-from datetime import datetime
 from io import BytesIO
 
 from flask import Flask, request, send_file, jsonify
@@ -21,15 +20,19 @@ def sign_pdf():
         return jsonify({"error": "No file provided"}), 400
 
     file = request.files['file']
-    signer_name = request.form.get('signerName', '').strip() or "Authorized Signer"
+    raw_initials = request.form.get('signerName', '').strip() or "AA"
+    initials = "".join(char.upper() for char in raw_initials if char.isalpha())[:3] or "AA"
+    display_name = request.form.get('displayName', '').strip()
 
     if file and file.filename.endswith('.pdf'):
         # Read the incoming PDF
         pdf_reader = PdfReader(file)
         pdf_writer = PdfWriter()
 
-        timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
-        signature_text = f"Signed by {signer_name} • {timestamp}"
+        if display_name:
+            pdf_writer.add_metadata({"/Title": display_name})
+
+        signature_text = f"Initials: {initials}"
 
         # Overlay the signature onto each page
         for page_num in range(len(pdf_reader.pages)):

@@ -1,10 +1,13 @@
 // src/services/signService.ts
 import axios from "axios";
 
-export async function signPdfOnServer(file: File, signerName: string): Promise<Blob> {
+export async function signPdfOnServer(
+  file: File,
+  displayName: string
+): Promise<Blob> {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("signerName", signerName);
+  formData.append("displayName", displayName);
 
   const response = await axios.post("http://localhost:4000/sign", formData, {
     responseType: "blob", // Expect PDF as Blob
