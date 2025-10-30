@@ -1,8 +1,6 @@
 // src/services/signService.ts
 import axios from "axios";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL ?? "/api";
-
 export async function signPdfOnServer(
   file: File,
   displayName: string
@@ -11,7 +9,7 @@ export async function signPdfOnServer(
   formData.append("file", file);
   formData.append("displayName", displayName);
 
-  const response = await axios.post(`${API_BASE_URL}/sign`, formData, {
+  const response = await axios.post("http://localhost:4000/sign", formData, {
     responseType: "blob", // Expect PDF as Blob
     headers: { "Content-Type": "multipart/form-data" },
   });

@@ -10,13 +10,12 @@
       }
     },
     {
-      "src": "api/sign.py",
+      "src": "backend/server.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/sign.py" },
-    { "src": "/static/(.*)", "dest": "/frontend/build/static/$1" },
-    { "src": "/(.*)", "dest": "/frontend/build/index.html" }
+    { "src": "/api/(.*)", "dest": "/backend/server.py" },
+    { "src": "/(.*)", "dest": "/frontend/build/$1" }
   ]
 }
